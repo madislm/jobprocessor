@@ -4,14 +4,15 @@ on:
   pull_request:
     branches: [ main ]
 
-permissions:
-  contents: write
-
 jobs:
   formatting:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+          persist-credentials: true
       - uses: axel-op/googlejavaformat-action@v4
         with:
           args: "--skip-sorting-imports --replace"
