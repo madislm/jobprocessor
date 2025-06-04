@@ -9,10 +9,7 @@ import com.madislm.jobprocessor.service.QueueService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -32,5 +29,11 @@ public class JobController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(jobMapper.jobToJobResponseDto(job));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<JobResponseDto> getJob(@PathVariable Long id) {
+        return ResponseEntity
+                .ok(jobMapper.jobToJobResponseDto(jobService.getJob(id)));
     }
 }
