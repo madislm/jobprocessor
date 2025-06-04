@@ -2,6 +2,7 @@ package com.madislm.jobprocessor.controller;
 
 import com.madislm.jobprocessor.dto.JobRequestDto;
 import com.madislm.jobprocessor.dto.JobResponseDto;
+import com.madislm.jobprocessor.exception.JobNotFoundException;
 import com.madislm.jobprocessor.mapper.JobMapper;
 import com.madislm.jobprocessor.model.Job;
 import com.madislm.jobprocessor.service.JobService;
@@ -34,6 +35,7 @@ public class JobController {
     @GetMapping("/{id}")
     public ResponseEntity<JobResponseDto> getJob(@PathVariable Long id) {
         return ResponseEntity
-                .ok(jobMapper.jobToJobResponseDto(jobService.getJob(id)));
+                .ok(jobMapper.jobToJobResponseDto(
+                        jobService.getJob(id).orElseThrow(() -> new JobNotFoundException(id))));
     }
 }
